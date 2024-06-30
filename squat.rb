@@ -1,101 +1,76 @@
-# ### Squat Program (with RPE + %)
+class WorkoutGenerator
+  attr_reader :week, :rm, :exercises
 
-# **Week 1 - Week 5 (W1 - W5)**
+  def initialize(week)
+    @week = week
+    @rm = {squat: 85, snatch: 50, clean_and_jerk: 60}
+    setup_exercises
+  end
 
-# **Day 1 (Monday)**
+  def generate_workout
+    puts "Week #{week} - Workout Schedule"
+    exercises.each do |day|
+      print_day_schedule(day)
+    end
+  end
 
-# - Back Squat: RPE 8-9.5, 5 sets of 5 reps
-# - Power Snatch: 60-70% of 1RM, 3 sets of 2 reps
-# - Clean and Jerk: 60-70% of 1RM, 3 sets of 1 rep
+  private
 
-# **Day 2 (Tuesday)**
+  def setup_exercises
+    rpe_squat_weight = calculate_rpe_weight(rm[:squat], 0.935)
+    @exercises = [
+      {day: "Monday", workouts: standard_workout(rpe_squat_weight)},
+      {day: "Tuesday", workouts: standard_workout(rpe_squat_weight)},
+      {day: "Wednesday", workouts: standard_workout(rpe_squat_weight)},
+      {day: "Thursday", workouts: []},
+      {day: "Friday", workouts: standard_workout(rpe_squat_weight)},
+      {day: "Saturday", workouts: standard_workout(rpe_squat_weight)},
+      {day: "Sunday", workouts: light_squat_day(rpe_squat_weight)}
+    ]
+  end
 
-# - Back Squat: RPE 8-9.5, 5 sets of 5 reps
-# - Snatch: 60-70% of 1RM, 3 sets of 2 reps
-# - Power Clean and Jerk: 60-70% of 1RM, 3 sets of 1 rep
+  def standard_workout(weight)
+    [
+      {name: "Back Squat", type: "RPE 8-9.5", sets: 5, reps: 5, weight: weight},
+      {name: "Power Snatch", type: "60-70%", sets: 3, reps: 2, weight: percentage_range(:snatch)},
+      {name: "Clean and Jerk", type: "60-70%", sets: 3, reps: 1, weight: percentage_range(:clean_and_jerk)}
+    ]
+  end
 
-# **Day 3 (Wednesday)**
+  def light_squat_day(weight)
+    [
+      {name: "Back Squat", type: "65%", sets: 3, reps: 5, weight: calculate_rpe_weight(rm[:squat], 0.65)},
+      {name: "Snatch", type: "60-70%", sets: 3, reps: 2, weight: percentage_range(:snatch)},
+      {name: "Power Clean and Jerk", type: "60-70%", sets: 3, reps: 1, weight: percentage_range(:clean_and_jerk)}
+    ]
+  end
 
-# - Back Squat: RPE 8-9.5, 5 sets of 5 reps
-# - Power Snatch: 60-70% of 1RM, 3 sets of 2 reps
-# - Clean and Jerk: 60-70% of 1RM, 3 sets of 1 rep
+  def calculate_rpe_weight(reference_weight, multiplier)
+    (reference_weight * multiplier).round
+  end
 
-# **Day 4 (Thursday)**
+  def percentage_range(lift)
+    min = calculate_rpe_weight(rm[lift], 0.6)
+    max = calculate_rpe_weight(rm[lift], 0.7)
+    min..max
+  end
 
-# - Day off
-
-# **Day 5 (Friday)**
-
-# - Back Squat: RPE 8-9.5, 5 sets of 5 reps
-# - Snatch: 60-70% of 1RM, 3 sets of 2 reps
-# - Power Clean and Jerk: 60-70% of 1RM, 3 sets of 1 rep
-
-# **Day 6 (Saturday)**
-
-# - Back Squat: RPE 8-9.5, 5 sets of 5 reps
-# - Power Snatch: 60-70% of 1RM, 3 sets of 2 reps
-# - Clean and Jerk: 60-70% of 1RM, 3 sets of 1 rep
-
-# **Day 7 (Sunday)**
-
-# - Back Squat: 65% of 1RM, 3 sets of 5 reps
-# - Snatch: 60-70% of 1RM, 3 sets of 2 reps
-# - Power Clean and Jerk: 60-70% of 1RM, 3 sets of 1 rep
-
-# This routine provides a comprehensive structure, focusing on building strength and power in squatting, as well as technique in Olympic lifts across a week, with one rest day.
-
-def generate_workout(week)
-  rm = {squat: 100, snatch: 70, clean_and_jerk: 70}
-  rpe_squat_weight = (0.935 * rm[:squat]).round  # Average for RPE 8-9.5
-
-  exercises = [
-    {day: "Monday", workouts: [
-      {name: "Back Squat", type: "RPE 8-9.5", sets: 5, reps: 5, weight: rpe_squat_weight},
-      {name: "Power Snatch", type: "60-70%", sets: 3, reps: 2, weight: (0.6 * rm[:snatch]).round..(0.7 * rm[:snatch]).round},
-      {name: "Clean and Jerk", type: "60-70%", sets: 3, reps: 1, weight: (0.6 * rm[:clean_and_jerk]).round..(0.7 * rm[:clean_and_jerk]).round}
-    ]},
-    {day: "Tuesday", workouts: [
-      {name: "Back Squat", type: "RPE 8-9.5", sets: 5, reps: 5, weight: rpe_squat_weight},
-      {name: "Snatch", type: "60-70%", sets: 3, reps: 2, weight: (0.6 * rm[:snatch]).round..(0.7 * rm[:snatch]).round},
-      {name: "Power Clean and Jerk", type: "60-70%", sets: 3, reps: 1, weight: (0.6 * rm[:clean_and_jerk]).round..(0.7 * rm[:clean_and_jerk]).round}
-    ]},
-    {day: "Wednesday", workouts: [
-      {name: "Back Squat", type: "RPE 8-9.5", sets: 5, reps: 5, weight: rpe_squat_weight},
-      {name: "Power Snatch", type: "60-70%", sets: 3, reps: 2, weight: (0.6 * rm[:snatch]).round..(0.7 * rm[:snatch]).round},
-      {name: "Clean and Jerk", type: "60-70%", sets: 3, reps: 1, weight: (0.6 * rm[:clean_and_jerk]).round..(0.7 * rm[:clean_and_jerk]).round}
-    ]},
-    {day: "Thursday", workouts: []},
-    {day: "Friday", workouts: [
-      {name: "Back Squat", type: "RPE 8-9.5", sets: 5, reps: 5, weight: rpe_squat_weight},
-      {name: "Snatch", type: "60-70%", sets: 3, reps: 2, weight: (0.6 * rm[:snatch]).round..(0.7 * rm[:snatch]).round},
-      {name: "Power Clean and Jerk", type: "60-70%", sets: 3, reps: 1, weight: (0.6 * rm[:clean_and_jerk]).round..(0.7 * rm[:clean_and_jerk]).round}
-    ]},
-    {day: "Saturday", workouts: [
-      {name: "Back Squat", type: "RPE 8-9.5", sets: 5, reps: 5, weight: rpe_squat_weight},
-      {name: "Power Snatch", type: "60-70%", sets: 3, reps: 2, weight: (0.6 * rm[:snatch]).round..(0.7 * rm[:snatch]).round},
-      {name: "Clean and Jerk", type: "60-70%", sets: 3, reps: 1, weight: (0.6 * rm[:clean_and_jerk]).round..(0.7 * rm[:clean_and_jerk]).round}
-    ]},
-    {day: "Sunday", workouts: [
-      {name: "Back Squat", type: "65%", sets: 3, reps: 5, weight: (0.65 * rm[:squat]).round},
-      {name: "Snatch", type: "60-70%", sets: 3, reps: 2, weight: (0.6 * rm[:snatch]).round..(0.7 * rm[:snatch]).round},
-      {name: "Power Clean and Jerk", type: "60-70%", sets: 3, reps: 1, weight: (0.6 * rm[:clean_and_jerk]).round..(0.7 * rm[:clean_and_jerk]).round}
-    ]}
-  ]
-
-  puts "Week #{week} - Workout Schedule"
-
-  exercises.each do |day|
+  def print_day_schedule(day)
     puts "#{day[:day]}:"
     if day[:workouts].empty?
       puts "  Rest Day"
     else
       day[:workouts].each do |workout|
-        weight_str = workout[:weight].is_a?(Range) ? "#{workout[:weight].min}kg - #{workout[:weight].max}kg" : "#{workout[:weight]}kg"
-        puts "  #{workout[:name]}: #{workout[:type]} @ #{weight_str}, #{workout[:sets]} sets of #{workout[:reps]}"
+        print_workout_details(workout)
       end
     end
     puts "\n"
   end
+
+  def print_workout_details(workout)
+    weight_str = workout[:weight].is_a?(Range) ? "#{workout[:weight].min}kg - #{workout[:weight].max}kg" : "#{workout[:weight]}kg"
+    puts "  #{workout[:name]}: #{workout[:type]} @ #{weight_str}, #{workout[:sets]} sets of #{workout[:reps]}"
+  end
 end
 
-generate_workout(1)
+WorkoutGenerator.new(1).generate_workout
