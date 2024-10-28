@@ -1,65 +1,119 @@
-# Squat-and-Lift-Workout-Generator / Squat Program (with RPE + %)
+# Olympic Weightlifting Program Generator
 
-## Week 1 - Week 5 (W1 - W5)
+A professional workout generator focusing on Olympic weightlifting movements with RPE (Rate of Perceived Exertion) and percentage-based programming. This program combines strength development through back squats with technical Olympic lifting work.
 
-| Day                   | Exercise             | Sets x Reps | Intensity |
-| --------------------- | -------------------- | ----------- | --------- |
-| **Day 1 (Monday)**    | Back Squat           | 5x5         | RPE 8-9.5 |
-|                       | Power Snatch         | 3x2         | 60-70%    |
-|                       | Clean and Jerk       | 3x1         | 60-70%    |
-| **Day 2 (Tuesday)**   | Back Squat           | 5x5         | RPE 8-9.5 |
-|                       | Snatch               | 3x2         | 60-70%    |
-|                       | Power Clean and Jerk | 3x1         | 60-70%    |
-| **Day 3 (Wednesday)** | Back Squat           | 5x5         | RPE 8-9.5 |
-|                       | Power Snatch         | 3x2         | 60-70%    |
-|                       | Clean and Jerk       | 3x1         | 60-70%    |
-| **Day 4 (Thursday)**  | Day off              |             |           |
-| **Day 5 (Friday)**    | Back Squat           | 5x5         | RPE 8-9.5 |
-|                       | Snatch               | 3x2         | 60-70%    |
-|                       | Power Clean and Jerk | 3x1         | 60-70%    |
-| **Day 6 (Saturday)**  | Back Squat           | 5x5         | RPE 8-9.5 |
-|                       | Power Snatch         | 3x2         | 60-70%    |
-|                       | Clean and Jerk       | 3x1         | 60-70%    |
-| **Day 7 (Sunday)**    | Back Squat           | 3x5         | 65%       |
-|                       | Snatch               | 3x2         | 60-70%    |
-|                       | Power Clean and Jerk | 3x1         | 60-70%    |
+## 🏋️ Program Overview
 
-This project generates a weekly workout plan focusing on strength training, with an emphasis on squats, snatches, and clean-and-jerk exercises. It's designed to progressively increase your performance over time with structured, RPE-based programming.
+This 5-week program balances high-intensity squatting with technical Olympic lifting work. It's designed to:
 
-## Features
+- Build strength through RPE-based back squats
+- Develop technique in the Olympic lifts at moderate intensities
+- Provide adequate volume for both strength and skill development
 
-- Generates workout routines for a given week.
-- Includes daily workouts with recommended weights based on percentages of your 1RM (one-rep max).
-- Focuses on key lifts: Back Squat, Power Snatch, and Clean-and-Jerk.
-- Rest days are incorporated into the schedule.
-  
-## Usage
+## 📅 Weekly Schedule
 
-To generate a workout for a specific week, create an instance of `WorkoutGenerator` and pass the desired week number:
+| Day           | Exercise             | Sets × Reps | Intensity | Notes                |
+| ------------- | -------------------- | ----------- | --------- | -------------------- |
+| **Monday**    | Back Squat           | 5×5         | RPE 8-9.5 | Primary strength day |
+|               | Power Snatch         | 3×2         | 60-70%    | Technical focus      |
+|               | Clean and Jerk       | 3×1         | 60-70%    | Technical focus      |
+| **Tuesday**   | Back Squat           | 5×5         | RPE 8-9.5 | Volume day           |
+|               | Snatch               | 3×2         | 60-70%    | Full movement        |
+|               | Power Clean and Jerk | 3×1         | 60-70%    | Technical work       |
+| **Wednesday** | Back Squat           | 5×5         | RPE 8-9.5 | Volume day           |
+|               | Power Snatch         | 3×2         | 60-70%    | Speed focus          |
+|               | Clean and Jerk       | 3×1         | 60-70%    | Technical work       |
+| **Thursday**  | Rest Day             | -           | -         | Active recovery      |
+| **Friday**    | Back Squat           | 5×5         | RPE 8-9.5 | Strength focus       |
+|               | Snatch               | 3×2         | 60-70%    | Full movement        |
+|               | Power Clean and Jerk | 3×1         | 60-70%    | Technical work       |
+| **Saturday**  | Back Squat           | 5×5         | RPE 8-9.5 | Volume day           |
+|               | Power Snatch         | 3×2         | 60-70%    | Speed focus          |
+|               | Clean and Jerk       | 3×1         | 60-70%    | Technical work       |
+| **Sunday**    | Back Squat           | 3×5         | 65%       | Light recovery       |
+|               | Snatch               | 3×2         | 60-70%    | Technique            |
+|               | Power Clean and Jerk | 3×1         | 60-70%    | Technical work       |
 
-```ruby
-generator = WorkoutGenerator.new(week)
-generator.generate_workout
-```
+## 🚀 Features
 
-Example output for Week 1:
+- **Automated Workout Generation**: Creates complete weekly workout schedules
+- **RPE-Based Loading**: Uses RPE for main strength work
+- **Percentage-Based Olympic Lifts**: Technical work at appropriate intensities
+- **Calendar Integration**: Exports workouts to your favorite calendar app
+- **Progressive Structure**: 5-week program with planned progression
+- **Rest Day Integration**: Strategic placement of recovery days
 
-```ruby
-Week 1 - Workout Schedule
-Monday:
-  Back Squat: RPE 8-9.5 @ 80kg, 5 sets of 5
-  Power Snatch: 60-70% @ 30kg - 35kg, 3 sets of 2
-  Clean and Jerk: 60-70% @ 36kg - 42kg, 3 sets of 1
+## 💻 Usage
 
-Tuesday:
-  ...
-
-```
-
-## Customization
-
-You can modify the one-rep max values for squats, snatches, and clean-and-jerks by adjusting the `@rm` hash in the constructor.
+### Basic Program Generation
 
 ```ruby
-@rm = {squat: 85, snatch: 50, clean_and_jerk: 60}
+# Generate program for week 1
+program = WorkoutGenerator.new(1)
+program.generate_workout
 ```
+
+### Calendar Export
+
+```ruby
+# Generate and export to calendar
+program = WorkoutGenerator.new(1)
+program.generate_workout
+ICSGenerator.generate(program)
+```
+
+### Customizing Max Lifts
+
+```ruby
+# Custom maxes (in kg)
+maxes = {
+  squat: 100,        # 100kg squat max
+  snatch: 60,        # 60kg snatch max
+  clean_and_jerk: 75 # 75kg clean and jerk max
+}
+program = WorkoutGenerator.new(1, maxes)
+```
+
+## 📋 Requirements
+
+- Ruby 2.6 or higher
+- Date library (standard library)
+- SecureRandom library (standard library)
+
+## 📲 Calendar Integration
+
+The program generates an ICS file compatible with:
+
+- Google Calendar
+- Apple Calendar
+- Microsoft Outlook
+- Most calendar applications
+
+Each workout is scheduled as a 1-hour session at 2 PM with detailed descriptions including:
+
+- Exercise names
+- Sets and reps
+- Weights and intensities
+- Training focuses
+
+## 🎯 Program Design Notes
+
+- **Back Squat**: High frequency (6×/week) with RPE-based loading for strength development
+- **Olympic Lifts**: Moderate volume at technical percentages (60-70%) for skill development
+- **Sunday**: Lighter session for active recovery
+- **Thursday**: Complete rest day for recovery
+- **Power Variations**: Used strategically for speed and technique work
+
+## 🔄 Progressive Overload
+
+The program uses two methods of progression:
+
+1. **RPE-Based**: Back squats use RPE to auto-regulate intensity
+2. **Percentage-Based**: Olympic lifts use percentages for technical consistency
+
+## 📝 Notes
+
+- Adjust maxes as needed for appropriate loading
+- RPE 8-9.5 should leave 1-2 reps in reserve
+- Technical work should prioritize quality over weight
+- Rest periods: 2-3 minutes for squats, 1-2 minutes for Olympic lifts
