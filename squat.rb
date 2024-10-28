@@ -137,7 +137,6 @@ class ICSGenerator
   end
 end
 
-
 workout = WorkoutGenerator.new(1)
 workout.generate_workout
 
